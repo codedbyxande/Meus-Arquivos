@@ -94,7 +94,7 @@ detect_distro() {
     if grep -q "ID=fedora" /etc/os-release; then
         DETECTED_DISTRO="fedora"
         log_msg "info" "Distribuição detectada: Fedora"
-    elif grep -q "ID=opensuse-tumbleweed" /etc/os-release; then
+    elif grep -q 'ID="opensuse-tumbleweed"' /etc/os-release; then
         DETECTED_DISTRO="opensuse"
         log_msg "info" "Distribuição detectada: openSUSE Tumbleweed"
     elif grep -q "ID=debian" /etc/os-release && grep -q "VERSION_CODENAME=sid" /etc/os-release; then
