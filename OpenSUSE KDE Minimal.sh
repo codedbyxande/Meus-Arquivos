@@ -58,7 +58,7 @@ echo -e "${CYAN}\n===== INSTALANDO KDE PLASMA 6 MINIMALISTA =====${NC}"
 # 'sddm' é o gerenciador de exibição padrão do KDE.
 # 'dolphin' é o gerenciador de arquivos do KDE (considerado essencial para um desktop funcional).
 # 'flatpak' e 'fastfetch' são mantidos como utilitários úteis, mas podem ser removidos para um mínimo ainda mais extremo.
-sudo env ZYPP_PCK_PRELOAD=1 zypper in -y plasma6-desktop sddm dolphin flatpak fastfetch || { echo -e "${YELLOW}Falha ao instalar KDE Plasma 6 minimalista!${NC}"; exit 1; }
+sudo env ZYPP_PCK_PRELOAD=1 zypper in -y plasma6-desktop dolphin flatpak fastfetch dolphin-plugins ffmpegthumbs ark sddm sddm-kcm || { echo -e "${YELLOW}Falha ao instalar KDE Plasma 6 minimalista!${NC}"; exit 1; }
 
 echo -e "${CYAN}\n===== CONFIGURANDO FLATPAK (OPCIONAL) =====${NC}"
 # Adiciona o repositório Flathub para Flatpak, se ainda não existir
