@@ -988,7 +988,6 @@ if [ "$INSTALL_NVIDIA" == "y" ]; then
     # Incluído 'libnvidia-egl-wayland1' para suporte a Wayland e 'nvidia-video-G06' que abrange os drivers
     NVIDIA_PACKAGES="
         nvidia-gl-G06
-        nvidia-gfxG06-kmp-default
         libnvidia-egl-wayland1
         nvidia-utils-G06
         nvidia-settings
