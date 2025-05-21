@@ -26,7 +26,7 @@ if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
 fi
 
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND MINIMAL =====${NC}"
-sudo dnf install -y hyprland fuzzel  kitty git hyprland-devel flatpak fastfetch swaybg waypaper
+sudo dnf install -y hyprland fuzzel  kitty git hyprland-devel flatpak fastfetch swaybg waypaper hyprpanel
 
 echo -e "${CYAN}\n===== INSTALANDO NAUTILUS (SEM DEPENDÊNCIAS FRACAS) =====${NC}"
 sudo dnf install -y nautilus --setopt=install_weak_deps=False
