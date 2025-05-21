@@ -2,7 +2,8 @@
 # Instalação com Hyprland e driver NVIDIA específico (570.153.02) no Debian/Ubuntu
 # Baseado em script para "Instalação Minimalista do KDE" mas focado em Hyprland.
 
-set -e # Sair imediatamente se um comando falhar
+# Sair imediatamente se um comando falhar
+set -e
 
 # Cores para o terminal
 GREEN='\033[1;32m'
@@ -21,10 +22,8 @@ DOWNLOAD_DIR="/tmp/nvidia_driver_download_$$" # Usar PID para diretório tempor�
 cleanup_nvidia_download() {
     if [ -d "${DOWNLOAD_DIR}" ]; then
         echo -e "${CYAN}Limpando arquivos de download do driver NVIDIA...${NC}"
-        # Não usar sudo aqui, pois o diretório foi criado pelo utilizador.
-        # Se o script for executado como root, então sudo não é necessário.
-        # Se o script for executado como utilizador normal, e o download_dir for em /tmp,
-        # o utilizador deve ter permissão para remover.
+        # O diretório é criado pelo usuário (ou root se o script for executado como root).
+        # rm -rf funciona sem sudo se o usuário tiver permissão.
         rm -rf "${DOWNLOAD_DIR}"
     fi
 }
@@ -34,7 +33,7 @@ trap cleanup_nvidia_download EXIT
 echo -e "${CYAN}\n===== CONFIGURANDO REPOSITÓRIOS (DEBIAN SID) =====${NC}"
 echo -e "${YELLOW}Atenção: Configurando para usar os repositórios Debian Sid (unstable).${NC}"
 echo -e "${YELLOW}Faça backup de /etc/apt/sources.list se desejar reverter.${NC}"
-sudo cp /etc/apt/sources.list{,.bak_$(date +%F_%T)} # Backup with timestamp
+sudo cp /etc/apt/sources.list{,.bak_$(date +%F_%T)} # Backup com timestamp
 sudo tee /etc/apt/sources.list > /dev/null <<EOF
 deb http://deb.debian.org/debian sid main contrib non-free non-free-firmware
 deb-src http://deb.debian.org/debian sid main contrib non-free non-free-firmware
@@ -44,9 +43,9 @@ echo -e "${CYAN}\n===== ATUALIZANDO O SISTEMA =====${NC}"
 sudo apt update && sudo apt full-upgrade -y
 
 echo -e "${CYAN}\n===== INSTALANDO VISUAL STUDIO CODE =====${NC}"
-sudo apt-get install -y wget gpg apt-transport-https
+sudo apt install -y wget gpg apt-transport-https
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo mkdir -p /etc/apt/keyrings # Ensure the directory exists
+sudo mkdir -p /etc/apt/keyrings # Garante que o diretório exista
 sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
 echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
 rm -f packages.microsoft.gpg
@@ -82,7 +81,7 @@ if [[ ${nvidia_choice,,} =~ ^(s|sim)$ ]]; then
 
     if [[ -n "${nvidia_driver_path}" && -f "${nvidia_driver_path}" ]]; then
         echo -e "${CYAN}\n===== INSTALANDO DEPENDÊNCIAS PARA O DRIVER NVIDIA =====${NC}"
-        sudo apt install -y build-essential pkg-config libglvnd-dev libgl1-mesa-dev dkms linux-headers-$(uname -r) gcc make
+        sudo apt install -y build-essential pkg-config libglvnd-dev libgl1-mesa-dev dkms linux-headers-"$(uname -r)" gcc make
 
         echo -e "${CYAN}\n===== DESABILITANDO DRIVER NOUVEAU (BLACKLIST) =====${NC}"
         echo -e "${YELLOW}Isso criará um arquivo para colocar o driver 'nouveau' na blacklist.${NC}"
@@ -94,7 +93,7 @@ EOF
         sudo update-initramfs -u
 
         echo -e "\n${YELLOW}********************************************************************************${NC}"
-        echo -e "${YELLOW}* ${RED}RECOMENDAÇÃO CRÍTICA:${NC} ${YELLOW}                                                    *${NC}"
+        echo -e "${YELLOW}* ${RED}RECOMENDAÇÃO CRÍTICA:${NC}                                                          *${NC}"
         echo -e "${YELLOW}* Uma REINICIALIZAÇÃO é ALTAMENTE RECOMENDADA neste ponto para garantir        *${NC}"
         echo -e "${YELLOW}* que o driver 'nouveau' seja completamente desabilitado antes de instalar o   *${NC}"
         echo -e "${YELLOW}* driver NVIDIA.                                                               *${NC}"
