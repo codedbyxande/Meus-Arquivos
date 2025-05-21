@@ -13,9 +13,15 @@ NC='\033[0m' # No Color
 echo -e "${CYAN}\n===== INSTALANDO PARU (AUR HELPER) =====${NC}"
 temp_dir=$(mktemp -d)
 echo "Usando diretório temporário: $temp_dir"
+
+# Instalar base-devel e git como root
 pacman -S --needed base-devel git --noconfirm
+
+# Usar sudo -u "$SUDO_USER" para executar makepkg como o usuário original
+# SUDO_USER contém o nome do usuário que invocou sudo
+echo -e "${CYAN}Clonando e instalando paru...${NC}"
 git clone https://aur.archlinux.org/paru.git "$temp_dir/paru"
-(cd "$temp_dir/paru" && makepkg -si --noconfirm)
+(cd "$temp_dir/paru" && sudo -u "$SUDO_USER" makepkg -si --noconfirm)
 rm -rf "$temp_dir"
 
 read -r -p "$(echo -e "${YELLOW}Instalar drivers NVIDIA? [s/N]: ${NC}")" nvidia
@@ -29,14 +35,16 @@ if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
     case "$nvidia_opt" in
         1)
             echo -e "${CYAN}Instalando pacote NVIDIA completo...${NC}"
-            if ! paru -S --noconfirm nvidia nvidia-utils nvidia-settings cuda; then
+            # Use sudo -u "$SUDO_USER" para paru também, pois ele usa makepkg internamente
+            if ! sudo -u "$SUDO_USER" paru -S --noconfirm nvidia nvidia-utils nvidia-settings cuda; then
                 echo -e "${RED}Falha ao instalar drivers NVIDIA!${NC}"
                 exit 1
             fi
             ;;
         2)
             echo -e "${CYAN}Instalando pacote NVIDIA DKMS...${NC}"
-            if ! paru -S --noconfirm nvidia-dkms nvidia-utils nvidia-settings cuda; then
+            # Use sudo -u "$SUDO_USER" para paru também
+            if ! sudo -u "$SUDO_USER" paru -S --noconfirm nvidia-dkms nvidia-utils nvidia-settings cuda; then
                 echo -e "${RED}Falha ao instalar drivers NVIDIA DKMS!${NC}"
                 exit 1
             fi
@@ -52,13 +60,15 @@ echo -e "${CYAN}\n===== INSTALANDO HYPRLAND E UTILITÁRIOS =====${NC}"
 pacman -S --noconfirm hyprland fuzzel kitty git flatpak
 
 echo -e "${CYAN}\n===== INSTALANDO AGS-HYPRPANEL E WAYPAPER =====${NC}"
-paru -S --noconfirm ags-hyprpanel-git waypaper
+# Use sudo -u "$SUDO_USER" para paru
+sudo -u "$SUDO_USER" paru -S --noconfirm ags-hyprpanel-git waypaper
 
 echo -e "${CYAN}\n===== INSTALANDO NAUTILUS =====${NC}"
 pacman -S --noconfirm nautilus
 
 echo -e "${CYAN}\n===== INSTALANDO VS CODE =====${NC}"
-paru -S visual-studio-code-bin --noconfirm
+# Use sudo -u "$SUDO_USER" para paru
+sudo -u "$SUDO_USER" paru -S visual-studio-code-bin --noconfirm
 
 echo -e "${CYAN}\n===== CONFIGURANDO FLATPAK E APPS =====${NC}"
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
