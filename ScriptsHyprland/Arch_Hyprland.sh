@@ -41,7 +41,7 @@ if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
 fi
 
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND E UTILITÁRIOS =====${NC}"
-pacman -S --noconfirm hyprland fuzzel kitty git flatpak base-devel
+pacman -S --noconfirm hyprland fuzzel kitty git flatpak base-devel swaybag
 
 
 echo -e "${CYAN}\n===== INSTALANDO NAUTILUS =====${NC}"
