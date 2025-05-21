@@ -1,8 +1,6 @@
 #!/bin/bash
 # Instalação Minimalista do Hyprland no Arch Linux
 
-set -e
-
 # Cores para o terminal
 GREEN='\033[1;32m'
 CYAN='\033[1;36m'
@@ -21,23 +19,18 @@ if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
     case "$nvidia_opt" in
         1)
             echo -e "${CYAN}Instalando pacote NVIDIA completo...${NC}"
-            if ! paru -S --noconfirm nvidia nvidia-utils nvidia-settings cuda; then
+            paru -S --noconfirm nvidia nvidia-utils nvidia-settings cuda || \
                 echo -e "${RED}Falha ao instalar drivers NVIDIA!${NC}"
-                exit 1
-            fi
             ;;
         2)
             echo -e "${CYAN}Instalando pacote NVIDIA DKMS...${NC}"
-            if ! paru -S --noconfirm nvidia-dkms nvidia-utils nvidia-settings cuda; then
+            paru -S --noconfirm nvidia-dkms nvidia-utils nvidia-settings cuda || \
                 echo -e "${RED}Falha ao instalar drivers NVIDIA DKMS!${NC}"
-                exit 1
-            fi
             ;;
         *)
             echo -e "${YELLOW}Instalação dos drivers NVIDIA cancelada pelo usuário.${NC}"
             ;;
     esac
-    mkinitcpio -P
 fi
 
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND E UTILITÁRIOS =====${NC}"
