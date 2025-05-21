@@ -2,6 +2,8 @@
 # Instalação com Hyprland e driver NVIDIA específico (570.153.02) no Debian/Ubuntu
 # Baseado em script para "Instalação Minimalista do KDE" mas focado em Hyprland.
 
+set -e # Sair imediatamente se um comando falhar
+
 # Cores para o terminal
 GREEN='\033[1;32m'
 CYAN='\033[1;36m'
@@ -19,7 +21,11 @@ DOWNLOAD_DIR="/tmp/nvidia_driver_download_$$" # Usar PID para diretório tempor�
 cleanup_nvidia_download() {
     if [ -d "${DOWNLOAD_DIR}" ]; then
         echo -e "${CYAN}Limpando arquivos de download do driver NVIDIA...${NC}"
-        sudo rm -rf "${DOWNLOAD_DIR}"
+        # Não usar sudo aqui, pois o diretório foi criado pelo utilizador.
+        # Se o script for executado como root, então sudo não é necessário.
+        # Se o script for executado como utilizador normal, e o download_dir for em /tmp,
+        # o utilizador deve ter permissão para remover.
+        rm -rf "${DOWNLOAD_DIR}"
     fi
 }
 # Registrar a função de limpeza para ser chamada na saída do script
@@ -76,7 +82,7 @@ if [[ ${nvidia_choice,,} =~ ^(s|sim)$ ]]; then
 
     if [[ -n "${nvidia_driver_path}" && -f "${nvidia_driver_path}" ]]; then
         echo -e "${CYAN}\n===== INSTALANDO DEPENDÊNCIAS PARA O DRIVER NVIDIA =====${NC}"
-        sudo apt install -y build-essential pkg-config libglvnd-dev libgl1-mesa-dev dkms linux-headers-amd64 gcc make
+        sudo apt install -y build-essential pkg-config libglvnd-dev libgl1-mesa-dev dkms linux-headers-$(uname -r) gcc make
 
         echo -e "${CYAN}\n===== DESABILITANDO DRIVER NOUVEAU (BLACKLIST) =====${NC}"
         echo -e "${YELLOW}Isso criará um arquivo para colocar o driver 'nouveau' na blacklist.${NC}"
@@ -103,9 +109,6 @@ EOF
             echo -e "${GREEN}  2. Torne o instalador executável: sudo chmod +x \"${nvidia_driver_path}\"${NC}"
             echo -e "${GREEN}  3. Execute o instalador: sudo \"${nvidia_driver_path}\" --accept-license --dkms --no-cc-version-check --no-install-compat32-libs --ui=none ${NC}"
             echo -e "${YELLOW}Saindo do script para permitir a reinicialização. Se o sistema não reiniciar automaticamente, execute 'sudo reboot'.${NC}"
-            # A limpeza do driver baixado será feita pelo trap EXIT, mas não se o usuário reiniciar manualmente.
-            # Para garantir, podemos remover aqui se ele não for mais necessário.
-            # No entanto, é melhor deixar para o usuário caso ele precise do arquivo após o reboot.
             exit 0 
         else
             echo -e "${YELLOW}Continuando sem reiniciar AGORA. A instalação do driver NVIDIA PODE FALHAR se 'nouveau' ainda estiver ativo.${NC}"
@@ -124,21 +127,18 @@ EOF
         
         echo -e "${CYAN}\n===== INSTALANDO DRIVER NVIDIA DO ARQUIVO BAIXADO (${NVIDIA_DRIVER_FILENAME}) =====${NC}"
         sudo chmod +x "${nvidia_driver_path}"
-        NVIDIA_INSTALL_CMD="sudo \"${nvidia_driver_path}\" --accept-license --dkms --no-cc-version-check --no-install-compat32-libs --ui=none"
-        echo -e "${YELLOW}Executando o instalador NVIDIA com o comando:${NC}"
-        echo -e "${CYAN}${NVIDIA_INSTALL_CMD}${NC}"
-        echo -e "${YELLOW}Isso pode levar algum tempo. Por favor, aguarde e siga quaisquer instruções na tela se aparecerem.${NC}"
         
-        if ${NVIDIA_INSTALL_CMD}; then 
-            echo -e "${GREEN}\nInstalação do driver NVIDIA parece ter sido concluída com sucesso.${NC}"
-            echo -e "${YELLOW}UMA REINICIALIZAÇÃO FINAL É ABSOLUTAMENTE NECESSÁRIA para que o novo driver entre em vigor.${NC}"
-        else
-            echo -e "${RED}\nA instalação do driver NVIDIA falhou, foi interrompida ou retornou um erro.${NC}"
-            echo -e "${YELLOW}Verifique a saída acima para mensagens de erro.${NC}"
-            echo -e "${YELLOW}Você pode precisar executar o instalador manualmente com mais opções ou verificar os logs.${NC}"
-            echo -e "${YELLOW}Comando sugerido para tentativa manual: sudo \"${nvidia_driver_path}\" (para ver a interface TUI do instalador)${NC}"
-            echo -e "${YELLOW}Logs do instalador NVIDIA geralmente são encontrados em: /var/log/nvidia-installer.log${NC}"
-        fi
+        echo -e "${YELLOW}Executando o instalador NVIDIA com o comando:${NC}"
+        # Usar set -x para mostrar o comando exato que será executado
+        set -x 
+        sudo "${nvidia_driver_path}" --accept-license --dkms --no-cc-version-check --no-install-compat32-libs --ui=none
+        # Desativar o set -x
+        set +x
+        
+        # A verificação de sucesso será feita pelo 'set -e'. Se o comando acima falhar, o script terminará.
+        echo -e "${GREEN}\nInstalação do driver NVIDIA parece ter sido concluída com sucesso.${NC}"
+        echo -e "${YELLOW}UMA REINICIALIZAÇÃO FINAL É ABSOLUTAMENTE NECESSÁRIA para que o novo driver entre em vigor.${NC}"
+        
     elif [[ -n "${nvidia_driver_path}" && ! -f "${nvidia_driver_path}" ]]; then
         # Este caso ocorre se o download falhou e o usuário optou por continuar
         echo -e "${YELLOW}\nDownload do driver NVIDIA falhou ou foi pulado.${NC}"
