@@ -10,15 +10,6 @@ YELLOW='\033[1;33m'
 RED='\033[1;31m'
 NC='\033[0m' # No Color
 
-echo -e "${CYAN}\n===== CONFIGURANDO PACMAN E MIRRORS =====${NC}"
-sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
-pacman -Sy reflector --noconfirm
-reflector --country Brazil --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist
-sed -i '/\[multilib\]/,/Include/ s/^#//' /etc/pacman.conf
-
-echo -e "${CYAN}\n===== ATUALIZANDO O SISTEMA =====${NC}"
-pacman -Syu --noconfirm
-
 echo -e "${CYAN}\n===== INSTALANDO PARU (AUR HELPER) =====${NC}"
 temp_dir=$(mktemp -d)
 echo "Usando diretório temporário: $temp_dir"
