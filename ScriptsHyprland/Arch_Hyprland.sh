@@ -10,8 +10,6 @@ YELLOW='\033[1;33m'
 RED='\033[1;31m'
 NC='\033[0m' # No Color
 
-pacman -S --needed base-devel git --noconfirm
-
 read -r -p "$(echo -e "${YELLOW}Instalar drivers NVIDIA? [s/N]: ${NC}")" nvidia
 if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
     echo -e "${CYAN}\n===== ESCOLHA O TIPO DE DRIVER NVIDIA =====${NC}"
@@ -43,16 +41,13 @@ if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
 fi
 
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND E UTILITÁRIOS =====${NC}"
-pacman -S --noconfirm hyprland fuzzel kitty git flatpak
+pacman -S --noconfirm hyprland fuzzel kitty git flatpak base-devel
 
 echo -e "${CYAN}\n===== INSTALANDO AGS-HYPRPANEL E WAYPAPER =====${NC}"
 paru -S --noconfirm ags-hyprpanel-git waypaper
 
 echo -e "${CYAN}\n===== INSTALANDO NAUTILUS =====${NC}"
 pacman -S --noconfirm nautilus
-
-echo -e "${CYAN}\n===== INSTALANDO VS CODE =====${NC}"
-paru -S visual-studio-code-bin --noconfirm
 
 echo -e "${CYAN}\n===== CONFIGURANDO FLATPAK E APPS =====${NC}"
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
