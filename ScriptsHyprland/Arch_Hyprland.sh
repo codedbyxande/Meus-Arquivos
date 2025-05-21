@@ -36,7 +36,7 @@ if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
 fi
 
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND E UTILITÁRIOS =====${NC}"
-paru -S --noconfirm hyprland fuzzel kitty git flatpak base-devel swaybg waypaper ags-hyprpanel-git nwg-look nwg-displays pop-icon-theme visual-studio-code-bin fastfetch fish zsh || { echo -e "${YELLOW}Falha ao instalar Hyprland e utilitários!${NC}"; exit 1; }
+paru -S --noconfirm hyprland fuzzel kitty git flatpak base-devel swaybg nwg-look nwg-displays pop-icon-theme visual-studio-code-bin fastfetch fish zsh || { echo -e "${YELLOW}Falha ao instalar Hyprland e utilitários!${NC}"; exit 1; }
 
 echo -e "${CYAN}\n===== INSTALANDO NAUTILUS =====${NC}"
 paru -S --noconfirm nautilus || { echo -e "${YELLOW}Falha ao instalar Nautilus!${NC}"; exit 1; }
