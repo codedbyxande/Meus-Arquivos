@@ -64,10 +64,10 @@ echo -e "${CYAN}\n===== CONFIGURANDO FLATPAK (OPCIONAL) =====${NC}"
 # Adiciona o repositório Flathub para Flatpak, se ainda não existir
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 # Exemplo de instalação de aplicativos Flatpak - Removido para manter a instalação minimalista
-# flatpak install -y flathub \
-#     app.zen_browser.zen \
-#     dev.vencord.Vesktop \
-#     org.nickvision.tubeconverter
+flatpak install -y flathub \
+     app.zen_browser.zen \
+     dev.vencord.Vesktop \
+     org.nickvision.tubeconverter
 
 echo -e "${CYAN}\n===== FINALIZANDO INSTALAÇÃO =====${NC}"
 # Define o alvo gráfico como padrão para iniciar o ambiente gráfico na inicialização
