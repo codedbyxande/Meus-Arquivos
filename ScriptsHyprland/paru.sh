@@ -1,10 +1,22 @@
+#!/bin/bash
+
+# Define colors for output
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
 
 echo -e "${CYAN}\n===== INSTALANDO PARU (AUR HELPER) =====${NC}"
-temp_dir=$(mktemp -d)
-echo "Usando diretório temporário: $temp_dir"
-pacman -S --needed base-devel git --noconfirm
-git clone https://aur.archlinux.org/paru.git "$temp_dir/paru"
-(cd "$temp_dir/paru" && makepkg -si --noconfirm)
-rm -rf "$temp_dir"
+mkdir -p tmp # -p ensures no error if tmp exists
+cd tmp
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si # This will prompt for sudo password and confirmation
+cd ../.. # Go back to the original directory
+rm -rf tmp # Remove the temporary directory
 
+echo -e "${CYAN}\n===== INSTALANDO VS CODE =====${NC}"
+paru -S visual-studio-code-bin --noconfirm
 
+echo -e "${CYAN}\n===== INSTALANDO AGS-HYPRPANEL E WAYPAPER =====${NC}"
+paru -S --noconfirm ags-hyprpanel-git waypaper
+
+echo -e "${CYAN}\n===== INSTALAÇÃO CONCLUÍDA! =====${NC}"
