@@ -19,29 +19,8 @@ sed -i '/\[multilib\]/,/Include/ s/^#//' /etc/pacman.conf
 echo -e "${CYAN}\n===== ATUALIZANDO O SISTEMA =====${NC}"
 pacman -Syu --noconfirm
 
-echo -e "${CYAN}\n===== INSTALANDO PARU (AUR HELPER) =====${NC}"
-temp_dir=$(mktemp -d)
-echo "Usando diretório temporário: $temp_dir"
-pacman -S --needed base-devel git --noconfirm
-git clone https://aur.archlinux.org/paru.git "$temp_dir/paru"
-(cd "$temp_dir/paru" && makepkg -si --noconfirm)
-rm -rf "$temp_dir"
-
-read -r -p "$(echo -e "${YELLOW}Instalar drivers NVIDIA? [s/N]: ${NC}")" nvidia
-if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
-    echo -e "${CYAN}\n===== INSTALANDO DRIVERS NVIDIA =====${NC}"
-    if ! paru -S --noconfirm nvidia-dkms nvidia-utils nvidia-settings cuda; then
-        echo -e "${YELLOW}Falha ao instalar drivers NVIDIA!${NC}"
-        exit 1
-    fi
-    mkinitcpio -P
-fi
-
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND =====${NC}"
 pacman -S --noconfirm hyprland fuzzel nautilus kitty git flatpak
-
-echo -e "${CYAN}\n===== INSTALANDO VS CODE =====${NC}"
-paru -S visual-studio-code-bin --noconfirm
 
 echo -e "${CYAN}\n===== CONFIGURANDO FLATPAK E APPS =====${NC}"
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
