@@ -43,8 +43,6 @@ fi
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND E UTILITÁRIOS =====${NC}"
 pacman -S --noconfirm hyprland fuzzel kitty git flatpak base-devel
 
-echo -e "${CYAN}\n===== INSTALANDO AGS-HYPRPANEL E WAYPAPER =====${NC}"
-paru -S --noconfirm ags-hyprpanel-git waypaper
 
 echo -e "${CYAN}\n===== INSTALANDO NAUTILUS =====${NC}"
 pacman -S --noconfirm nautilus
