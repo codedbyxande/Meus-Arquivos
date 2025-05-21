@@ -17,6 +17,7 @@ sudo dnf install -y \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 sudo dnf copr enable -y solopasha/hyprland
+sudo dnf copr enable -y tofik/nwg-shell 
 
 read -r -p "$(echo -e "${YELLOW}Instalar drivers NVIDIA? [s/N]: ${NC}")" nvidia
 if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
@@ -26,7 +27,7 @@ if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
 fi
 
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND MINIMAL =====${NC}"
-sudo dnf install -y hyprland fuzzel  kitty git hyprland-devel flatpak fastfetch swaybg waypaper hyprpanel
+sudo dnf install -y hyprland fuzzel  kitty git hyprland-devel flatpak fastfetch swaybg waypaper hyprpanel nwg-look nwg-displays
 
 echo -e "${CYAN}\n===== INSTALANDO NAUTILUS (SEM DEPENDÊNCIAS FRACAS) =====${NC}"
 sudo dnf install -y nautilus --setopt=install_weak_deps=False
