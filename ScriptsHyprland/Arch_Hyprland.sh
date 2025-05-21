@@ -10,6 +10,8 @@ YELLOW='\033[1;33m'
 RED='\033[1;31m'
 NC='\033[0m' # No Color
 
+pacman -S --needed base-devel git --noconfirm
+
 read -r -p "$(echo -e "${YELLOW}Instalar drivers NVIDIA? [s/N]: ${NC}")" nvidia
 if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
     echo -e "${CYAN}\n===== ESCOLHA O TIPO DE DRIVER NVIDIA =====${NC}"
