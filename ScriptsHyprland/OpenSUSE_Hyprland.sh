@@ -116,6 +116,8 @@ fi
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND MINIMAL E UTILITÁRIOS =====${NC}"
 # Lista de pacotes essenciais do Hyprland e utilitários
 HYPRLAND_PACKAGES=(
+    hyprland-devel
+    hyprland-qtutils
     hyprland         # Pacote principal do Hyprland (já que hyprland-devel pode ser apenas a versão de desenvolvimento)
     fuzzel           # Lançador de aplicativos
     kitty            # Emulador de terminal
