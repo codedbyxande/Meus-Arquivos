@@ -100,7 +100,7 @@ if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
         nvidia-video-G06
     )
     # Instala os pacotes NVIDIA
-    sudo env ZYPP_PCK_PRELOAD=1 zypper install -y "${NVIDIA_PACKAGES[@]}" || handle_error "Falha ao instalar drivers NVIDIA!"
+    sudo env ZYPP_PCK_PRELOAD=1 zypper install  "${NVIDIA_PACKAGES[@]}" || handle_error "Falha ao instalar drivers NVIDIA!"
     echo -e "${GREEN}Drivers NVIDIA instalados com sucesso.${NC}"
 
     echo -e "${CYAN}\n===== RECRIANDO INITRAMFS =====${NC}"
