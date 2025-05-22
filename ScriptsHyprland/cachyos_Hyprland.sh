@@ -9,10 +9,10 @@ RED='\033[1;31m'
 NC='\033[0m' # No Color
 
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND E UTILITÁRIOS =====${NC}"
-paru -S --noconfirm hyprland fuzzel kitty git flatpak base-devel swaybg nwg-look nwg-displays pop-icon-theme visual-studio-code-bin fastfetch fish zsh || { echo -e "${YELLOW}Falha ao instalar Hyprland e utilitários!${NC}"; exit 1; }
+pacman -S --noconfirm hyprland fuzzel kitty git flatpak base-devel swaybg nwg-look nwg-displays pop-icon-theme fastfetch fish zsh || { echo -e "${YELLOW}Falha ao instalar Hyprland e utilitários!${NC}"; exit 1; }
 
 echo -e "${CYAN}\n===== INSTALANDO NAUTILUS =====${NC}"
-paru -S --noconfirm nautilus || { echo -e "${YELLOW}Falha ao instalar Nautilus!${NC}"; exit 1; }
+pacman -S --noconfirm nautilus || { echo -e "${YELLOW}Falha ao instalar Nautilus!${NC}"; exit 1; }
 
 echo -e "${CYAN}\n===== CONFIGURANDO FLATPAK E APPS =====${NC}"
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
