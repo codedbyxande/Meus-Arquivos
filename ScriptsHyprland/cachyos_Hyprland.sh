@@ -9,7 +9,7 @@ RED='\033[1;31m'
 NC='\033[0m' # No Color
 
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND E UTILITÁRIOS =====${NC}"
-pacman -S --noconfirm hyprland fuzzel kitty git flatpak base-devel swaybg nwg-look nwg-displays pop-icon-theme fastfetch fish zsh || { echo -e "${YELLOW}Falha ao instalar Hyprland e utilitários!${NC}"; exit 1; }
+pacman -S --noconfirm hyprland fuzzel kitty git flatpak base-devel swaybg nwg-look nwg-displays pop-icon-theme fastfetch || { echo -e "${YELLOW}Falha ao instalar Hyprland e utilitários!${NC}"; exit 1; }
 
 echo -e "${CYAN}\n===== INSTALANDO NAUTILUS =====${NC}"
 pacman -S --noconfirm nautilus || { echo -e "${YELLOW}Falha ao instalar Nautilus!${NC}"; exit 1; }
