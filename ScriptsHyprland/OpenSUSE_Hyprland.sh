@@ -136,10 +136,10 @@ echo -e "${GREEN}Hyprland e utilitários instalados com sucesso.${NC}"
 
 # --- Instala Nautilus (Gerenciador de Arquivos) ---
 
-echo -e "${CYAN}\n===== INSTALANDO NAUTILUS (SEM RECOMENDAÇÕES) =====${NC}"
+#echo -e "${CYAN}\n===== INSTALANDO NAUTILUS (SEM RECOMENDAÇÕES) =====${NC}"
 # Instala Nautilus sem pacotes recomendados para uma configuração mínima
-sudo env ZYPP_PCK_PRELOAD=1 zypper install -y nautilus --no-recommends || handle_error "Falha ao instalar Nautilus!"
-echo -e "${GREEN}Nautilus instalado com sucesso.${NC}"
+#sudo env ZYPP_PCK_PRELOAD=1 zypper install -y nautilus --no-recommends || handle_error "Falha ao instalar Nautilus!"
+#echo -e "${GREEN}Nautilus instalado com sucesso.${NC}"
 
 
 # --- Instala Dependências do Waypaper e Waypaper via pipx ---
