@@ -11,7 +11,7 @@ echo -e "${CYAN}\n===== OTIMIZANDO DNF =====${NC}"
 echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf > /dev/null
 echo 'fastestmirror=true' | sudo tee -a /etc/dnf/dnf.conf > /dev/null
 
-echo -e "${CYAN}\n===== CONFIGURANDO REPOSITÓRIOS RPM FUSION =====${NC}"
+echo -e "${CYYAN}\n===== CONFIGURANDO REPOSITÓRIOS RPM FUSION =====${NC}"
 sudo dnf install -y \
     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
@@ -27,10 +27,14 @@ if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
 fi
 
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND MINIMAL =====${NC}"
-sudo dnf install -y hyprland fuzzel  kitty git hyprland-devel flatpak fastfetch swaybg waypaper hyprpanel nwg-look nwg-displays pop-icon-theme
+sudo dnf install -y hyprland fuzzel kitty git hyprland-devel flatpak fastfetch swaybg waypaper hyprpanel nwg-look nwg-displays pop-icon-theme
 
 echo -e "${CYAN}\n===== INSTALANDO NAUTILUS (SEM DEPENDÊNCIAS FRACAS) =====${NC}"
 sudo dnf install -y nautilus --setopt=install_weak_deps=False
+
+echo -e "${CYAN}\n===== CONFIGURANDO REPOSITÓRIO VS CODE =====${NC}"
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
 
 echo -e "${CYAN}\n===== INSTALANDO VS CODE =====${NC}"
 sudo dnf install -y code # Added VS Code installation similar to other scripts
