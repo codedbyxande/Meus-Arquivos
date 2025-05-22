@@ -116,46 +116,24 @@ fi
 echo -e "${CYAN}\n===== INSTALANDO HYPRLAND MINIMAL E UTILITÁRIOS =====${NC}"
 # Lista de pacotes essenciais do Hyprland e utilitários
 HYPRLAND_PACKAGES=(
-    hyprland-devel # Compositor Wayland principal do Hyprland
-    fuzzel         # Lançador de aplicativos
-    kitty          # Emulador de terminal
-    git            # Sistema de controle de versão
-    flatpak        # Sistema de pacotes universal
-    fastfetch      # Ferramenta de informações do sistema
-    swaybg         # Definidor de papel de parede para Wayland
-    nwg-look       # Ferramenta de configuração de tema GTK
-    nwg-displays   # Ferramenta de configuração de tela para Wayland
-    pop-icon-theme # Tema de ícones
-    fish           # Shell interativo amigável
-    zsh            # Z shell
+    hyprland-devel
+    hyprland         # Pacote principal do Hyprland (já que hyprland-devel pode ser apenas a versão de desenvolvimento)
+    fuzzel           # Lançador de aplicativos
+    kitty            # Emulador de terminal
+    git              # Sistema de controle de versão
+    flatpak          # Sistema de pacotes universal
+    fastfetch        # Ferramenta de informações do sistema
+    swaybg           # Definidor de papel de parede para Wayland
+    nwg-look         # Ferramenta de configuração de tema GTK
+    nwg-displays     # Ferramenta de configuração de tela para Wayland
+    pop-icon-theme   # Tema de ícones
+    fish             # Shell interativo amigável
+    zsh              # Z shell
 )
 sudo env ZYPP_PCK_PRELOAD=1 zypper install -y "${HYPRLAND_PACKAGES[@]}" || handle_error "Falha ao instalar Hyprland e utilitários!"
 echo -e "${GREEN}Hyprland e utilitários instalados com sucesso.${NC}"
 
-# --- Instala HyprPanel (Dashboard) ---
-
-echo -e "${CYAN}\n===== INSTALANDO HYPRPANEL (DASHBOARD) =====${NC}"
-HYPRPANEL_DIR="/tmp/HyprPanel"
-if [ -d "$HYPRPANEL_DIR" ]; then
-    echo -e "${YELLOW}Diretório $HYPRPANEL_DIR já existe. Removendo...${NC}"
-    rm -rf "$HYPRPANEL_DIR" || handle_error "Falha ao remover diretório existente de HyprPanel."
-fi
-
-git clone https://github.com/Jas-SinghFSU/HyprPanel.git "$HYPRPANEL_DIR" || handle_error "Falha ao clonar repositório HyprPanel."
-cd "$HYPRPANEL_DIR" || handle_error "Falha ao entrar no diretório HyprPanel."
-
-# Verifica se o meson está instalado
-if ! command -v meson &> /dev/null; then
-    echo -e "${YELLOW}Meson não encontrado. Instalando...${NC}"
-    sudo env ZYPP_PCK_PRELOAD=1 zypper install -y meson || handle_error "Falha ao instalar meson."
-fi
-
-meson setup build || handle_error "Falha ao configurar build do HyprPanel com meson."
-meson compile -C build || handle_error "Falha ao compilar HyprPanel."
-sudo meson install -C build || handle_error "Falha ao instalar HyprPanel."
-cd ~ || handle_error "Falha ao retornar ao diretório home."
-rm -rf "$HYPRPANEL_DIR" || handle_error "Falha ao limpar arquivos temporários do HyprPanel."
-echo -e "${GREEN}HyprPanel instalado com sucesso.${NC}"
+# Removido: Instalação do HyprPanel (conforme solicitado)
 
 # --- Instala Nautilus (Gerenciador de Arquivos) ---
 
