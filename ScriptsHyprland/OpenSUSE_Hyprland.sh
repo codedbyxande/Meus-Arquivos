@@ -142,6 +142,7 @@ echo -e "${CYAN}\n===== INSTALANDO NAUTILUS (SEM RECOMENDAÇÕES) =====${NC}"
 sudo env ZYPP_PCK_PRELOAD=1 zypper install -y nautilus --no-recommends || handle_error "Falha ao instalar Nautilus!"
 echo -e "${GREEN}Nautilus instalado com sucesso.${NC}"
 
+
 # --- Instala Dependências do Waypaper e Waypaper via pipx ---
 
 echo -e "${CYAN}\n===== INSTALANDO DEPENDÊNCIAS PARA WAYPAPER =====${NC}"
