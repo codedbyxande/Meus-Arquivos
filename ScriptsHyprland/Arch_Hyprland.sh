@@ -45,7 +45,6 @@ echo -e "${CYAN}\n===== CONFIGURANDO FLATPAK E APPS =====${NC}"
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub \
     com.github.tchx84.Flatseal \
-    app.zen_browser.zen \
     dev.vencord.Vesktop \
     org.nickvision.tubeconverter || { echo -e "${YELLOW}Falha ao instalar Flatpak apps!${NC}"; exit 1; }
 
