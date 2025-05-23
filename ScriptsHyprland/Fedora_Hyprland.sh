@@ -16,8 +16,9 @@ sudo dnf install -y \
     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-sudo dnf copr enable -y solopasha/hyprland
-sudo dnf copr enable -y tofik/nwg-shell 
+sudo dnf copr enable solopasha/hyprland
+sudo dnf copr enable heus-sueh/packages
+sudo dnf config-manager --save --setopt=copr:copr.fedorainfracloud.org:heus-sueh:packages.priority=200
 
 read -r -p "$(echo -e "${YELLOW}Instalar drivers NVIDIA? [s/N]: ${NC}")" nvidia
 if [[ ${nvidia,,} =~ ^(s|sim)$ ]]; then
