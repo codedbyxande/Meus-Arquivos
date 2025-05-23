@@ -17,6 +17,6 @@ echo -e "${CYAN}\n===== INSTALANDO VS CODE =====${NC}"
 paru -S visual-studio-code-bin --noconfirm
 
 echo -e "${CYAN}\n===== INSTALANDO AGS-HYPRPANEL E WAYPAPER =====${NC}"
-paru -S --noconfirm ags-hyprpanel-git waypaper
+paru -S --noconfirm ags-hyprpanel-git 
 
 echo -e "${CYAN}\n===== INSTALAÇÃO CONCLUÍDA! =====${NC}"
