@@ -33,12 +33,13 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 echo -e "${CYAN}\n===== INSTALANDO VS CODE =====${NC}"
 sudo dnf install -y code # Added VS Code installation similar to other scripts
 
+
 echo -e "${CYAN}\n===== CONFIGURANDO FLATPAK E APPS =====${NC}"
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub \
     com.github.tchx84.Flatseal \
-    app.zen_browser.zen \
+    com.mattjakeman.ExtensionManager \
     dev.vencord.Vesktop \
-    org.nickvision.tubeconverter # Adjusted flatpak apps to match other scripts, removed ExtensionManager
+    org.nickvision.tubeconverter
 
 echo -e "${GREEN}\n✅ Instalação concluída! Reinicie o sistema.${NC}"
