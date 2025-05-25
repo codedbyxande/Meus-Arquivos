@@ -13,9 +13,6 @@ makepkg -si # This will prompt for sudo password and confirmation
 cd ../.. # Go back to the original directory
 rm -rf tmp # Remove the temporary directory
 
-echo -e "${CYAN}\n===== INSTALANDO VS CODE =====${NC}"
-paru -S visual-studio-code-bin --noconfirm
-
 echo -e "${CYAN}\n===== INSTALANDO ZEN  =====${NC}"
 paru -S --noconfirm zen-browser-bin
 
